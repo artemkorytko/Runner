@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private bool _isActive;
 
-    [SerializeField] private float _speed = .2f;
+    [SerializeField] private float _speed = 2f;
 
     public event Action OnFinish;
     public event Action OnDied;
@@ -30,28 +30,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Awake()
     {
         _animator = GetComponent<Animator>();
-        IsActive = true;
     }
     private void Update()
     {
         if (!IsActive) return;
         Move();
     }
-    private void OnTriggerEnter(Collider other)
+
+    private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Finish")
         {
             IsActive = false;
+            Destroy(other.gameObject);
             Finish();
+        }
+        if (other.gameObject.tag == "Wall")
+        {
+            IsActive = false;
+            Died();
         }
     }
 
     private void Move()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + _speed * Time.deltaTime);
+        float inputX = Input.GetAxis("Horizontal");
+        transform.position = new Vector3(transform.position.x + _speed * .7f * inputX * Time.deltaTime, transform.position.y, transform.position.z + _speed * Time.deltaTime);
     }
 
     private void Died()
