@@ -10,14 +10,17 @@ public class PlayerController : MonoBehaviour
     private const string FALL = "Fall";
     private const string DANCE = "Dance";
 
+
     private Animator animator;
     public event Action OnFinish;
     public event Action OnDie;
 
     private bool isActive;
+    [SerializeField] private float moveSpeed = 10f;
+
     public bool IsActive
     {
-        get => IsActive;
+        get => isActive;
         set 
         {
             if(value == true)
@@ -27,10 +30,9 @@ public class PlayerController : MonoBehaviour
             isActive = value;
         }
     }
-    void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
-        
     }
 
     void Update()
@@ -43,15 +45,27 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        
+        transform.Translate(transform.forward * moveSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        
+      
+        if(collision.gameObject.CompareTag("Wall") 
+            && collision.gameObject.layer == 6 
+            && collision.gameObject.GetComponent<Wall>())
+        {
+            Die();
+        }
     }
-    
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Finish"))
+        {
+            Finish();
+        }
+    }
     private void Die()
     {
         animator.SetTrigger(FALL);
