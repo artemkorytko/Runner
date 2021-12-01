@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject floorPrefab;
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject finishPrefab;
+    
 
     [Header("Road Settings")]
     [SerializeField] private int floorCount = 10;
@@ -18,6 +19,10 @@ public class GameManager : MonoBehaviour
     [Header("Wall Settings")]
     [SerializeField] private float wallMinOffset = 3f;
     [SerializeField] private float wallMaxOffset = 5f;
+
+    [Header("Items Settings")]
+    [SerializeField] private GameObject[] itemPrefabs;
+    
 
     private PlayerController player;
     private Vector3 playerLocalPosition = Vector3.zero;
@@ -34,6 +39,7 @@ public class GameManager : MonoBehaviour
         ClearLevel();
         GenerateRoad();
         GenerateWalls();
+        GenerateItems();
         GeneratePlayer();
     }
     public void StartGame()
@@ -49,7 +55,8 @@ public class GameManager : MonoBehaviour
             part.transform.localPosition = startPoint;
             part.transform.localScale = new Vector3(floorWidth, part.transform.localScale.y, floorLenght);
             
-            startPoint.z += floorLenght; 
+            startPoint.z += floorLenght;
+          
         }
         GenerateFinish(startPoint);
     }
@@ -94,6 +101,36 @@ public class GameManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         player = null;
+
+    }
+    private void GenerateItems()
+    {
+        float fullLength = floorCount * floorLenght;
+        float offsetX = floorWidth / 3f;
+        float startPosZ = floorLenght+10;
+        float endPosZ = fullLength - floorLenght;
+
+        while (startPosZ < endPosZ)
+        {
+            var noiseZ = Random.Range(wallMinOffset, wallMaxOffset);
+            var startZ = startPosZ + noiseZ;
+            var randomX = Random.Range(0, 3);
+
+            var startX = randomX == 0 ? 0 : randomX == 1 ? -offsetX : offsetX;
+
+            int itemIndex = 0;
+            if (itemPrefabs.Length > 0)
+            {
+                itemIndex = Random.Range(0, itemPrefabs.Length);
+            }
+            GameObject item = Instantiate(itemPrefabs[itemIndex], transform);
+            Vector3 localPos = Vector3.zero;
+            localPos.x = startX;
+            localPos.z = startZ;
+
+            item.transform.localPosition = localPos;
+            startPosZ += floorLenght;
+        }
 
     }
 }

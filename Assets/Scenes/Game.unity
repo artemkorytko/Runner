@@ -226,6 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1256563268}
   - component: {fileID: 1256563269}
+  - component: {fileID: 1256563270}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -268,6 +269,17 @@ MonoBehaviour:
   floorWidth: 10
   wallMinOffset: 3
   wallMaxOffset: 5
+  itemPrefabs:
+  - {fileID: 2517506553399301645, guid: cfdbc73fc0f533348ba3a632052cc25a, type: 3}
+  - {fileID: 2517506553399301645, guid: a1e974f2b4e3412469ac7251bd749450, type: 3}
+--- !u!81 &1256563270
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256563267}
+  m_Enabled: 1
 --- !u!1 &1580118649
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour
     public event Action OnDie;
 
     private bool isActive;
+    private float horizontal = 0f;
+
     [SerializeField] private float moveSpeed = 10f;
 
     public bool IsActive
@@ -45,15 +47,16 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        
+        horizontal = Input.GetAxis("Horizontal");
+        transform.Translate(horizontal * transform.right * moveSpeed * Time.deltaTime);
         transform.Translate(transform.forward * moveSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
       
-        if(collision.gameObject.CompareTag("Wall") 
-            && collision.gameObject.layer == 6 
-            && collision.gameObject.GetComponent<Wall>())
+        if(collision.gameObject.CompareTag("Wall"))
         {
             Die();
         }
