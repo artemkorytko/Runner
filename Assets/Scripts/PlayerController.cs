@@ -13,11 +13,15 @@ public class PlayerController : MonoBehaviour
     
     private Animator _animator;
     private bool _isActive;
+    private int _coins = 0;
 
     [SerializeField] private float _speed = 2f;
 
     public event Action OnFinish;
     public event Action OnDied;
+    public event Action OnTakeCoin;
+
+    public int GetCoins => _coins;
 
     public bool IsActive
     {
@@ -52,6 +56,15 @@ public class PlayerController : MonoBehaviour
         {
             IsActive = false;
             Died();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Coin"))
+        {
+            _coins += other.GetComponent<Coin>().TakeCoin;
+            OnTakeCoin?.Invoke();
         }
     }
 
