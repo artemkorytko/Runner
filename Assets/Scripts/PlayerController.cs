@@ -10,6 +10,10 @@ public class PlayerController : MonoBehaviour
     private const string FALL = "Fall";
     private const string DANCE = "Dance";
 
+    [SerializeField] private float moveSpeed = 10f;
+    [SerializeField] private float lerpSpeed = 30;
+    [SerializeField] private float rotationAngle = 10;
+    private float roadWidth;
 
     private Animator animator;
     public event Action OnFinish;
@@ -17,8 +21,9 @@ public class PlayerController : MonoBehaviour
 
     private bool isActive;
     private float horizontal = 0f;
-
-    [SerializeField] private float moveSpeed = 10f;
+    private InputHandler inputHandler;
+    private Transform viewModel;
+   
 
     public bool IsActive
     {
@@ -35,6 +40,8 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
+        inputHandler = GetComponent<InputHandler>();
+        viewModel = transform.GetChild(0);
     }
 
     void Update()
@@ -47,9 +54,18 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        
-        horizontal = Input.GetAxis("Horizontal");
-        transform.Translate(horizontal * transform.right * moveSpeed * Time.deltaTime);
+        float offsetX = -inputHandler.HorizontalAxis * roadWidth;
+        Vector3 position = transform.localPosition;
+        position.x += offsetX;
+        position.x = Mathf.Clamp(position.x, -roadWidth*0.5f, roadWidth*0.5f);
+
+        Vector3 rotation = viewModel.localRotation.eulerAngles;
+        rotation.y = Mathf.LerpAngle(rotation.y, Mathf.Sin(offsetX) * rotationAngle, lerpSpeed* Time.deltaTime);
+        viewModel.localRotation = Quaternion.Euler(rotation);
+        transform.localPosition = position;
+
+       // horizontal = Input.GetAxis("Horizontal");
+       // transform.Translate(horizontal * transform.right * moveSpeed * Time.deltaTime);
         transform.Translate(transform.forward * moveSpeed * Time.deltaTime);
     }
 
@@ -82,4 +98,8 @@ public class PlayerController : MonoBehaviour
         OnFinish?.Invoke();
     }
 
+    public void SetupRoadWidth(float value)
+    {
+        roadWidth = value;
+    }
 }

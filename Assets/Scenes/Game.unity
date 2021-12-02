@@ -225,6 +225,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1256563268}
+  - component: {fileID: 1256563271}
   - component: {fileID: 1256563269}
   - component: {fileID: 1256563270}
   m_Layer: 0
@@ -260,26 +261,126 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3dfa7666518a440b75d3151661ebb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerPrefab: {fileID: 3871487979238838789, guid: 7fab9131b5b89c742818bc3acd3b0ac4, type: 3}
-  floorPrefab: {fileID: 2464669913101967586, guid: 0dd97be4745f72047882b857cc24ecf2, type: 3}
-  wallPrefab: {fileID: 3329945613159396381, guid: 9a77f3ec8d96d724aa76a4f31b30bfac, type: 3}
-  finishPrefab: {fileID: 7653155079519259146, guid: 32fe5e39f368dc14488507c9f6df6a1c, type: 3}
-  floorCount: 10
-  floorLenght: 20
-  floorWidth: 10
-  wallMinOffset: 3
-  wallMaxOffset: 5
-  itemPrefabs:
-  - {fileID: 2517506553399301645, guid: cfdbc73fc0f533348ba3a632052cc25a, type: 3}
-  - {fileID: 2517506553399301645, guid: a1e974f2b4e3412469ac7251bd749450, type: 3}
---- !u!81 &1256563270
-AudioListener:
+--- !u!82 &1256563270
+AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256563267}
   m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 47f45ef7b5767674393cc401fc325705, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 0.196
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1256563271
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1256563267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8aed887fd8f49554e988e2e283434094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 3871487979238838789, guid: 7fab9131b5b89c742818bc3acd3b0ac4, type: 3}
+  floorPrefab: {fileID: 2464669913101967586, guid: 0dd97be4745f72047882b857cc24ecf2, type: 3}
+  wallPrefab: {fileID: 3329945613159396381, guid: 9a77f3ec8d96d724aa76a4f31b30bfac, type: 3}
+  finishPrefab: {fileID: 7653155079519259146, guid: 32fe5e39f368dc14488507c9f6df6a1c, type: 3}
+  floorCount: 10
+  floorLenght: 20
+  floorWidth: 6
+  wallMinOffset: 3
+  wallMaxOffset: 5
+  itemPrefabs:
+  - {fileID: 2517506553399301645, guid: cfdbc73fc0f533348ba3a632052cc25a, type: 3}
+  - {fileID: 2517506553399301645, guid: a1e974f2b4e3412469ac7251bd749450, type: 3}
 --- !u!1 &1580118649
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,6 +454,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114154878131249260, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1256563269}
     - target: {fileID: 756757379082749635, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -441,5 +546,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: UI
       objectReference: {fileID: 0}
+    - target: {fileID: 2999338658508736450, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1256563269}
+    - target: {fileID: 8114107024727480837, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1256563269}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
