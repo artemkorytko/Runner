@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7034987539324983131
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7034987539324983130}
+  - component: {fileID: 7034987539324983133}
+  m_Layer: 0
+  m_Name: Level
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7034987539324983130
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7034987539324983131}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7034987539324983133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7034987539324983131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66720d9bd799f4f488a5e3d92aabbca1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 9039266111201729066, guid: a3975a0d75a5d1440a0b6d4051678992, type: 3}
+  floorPrefab: {fileID: 8655983912989548777, guid: 9f229dc071d76844a8cd5428cac00357, type: 3}
+  finishPrefab: {fileID: 5977464485691539117, guid: 826b4f2473544204ebc0f7761b0aaf84, type: 3}
+  wallPrefab: {fileID: 3466602368866195768, guid: e2786b07ae27a984194ef5f7df9abb30, type: 3}
+  coinPrefab: {fileID: 5530406002227957701, guid: 8eb6aa04cc676204dbcefd5d3d23ab42, type: 3}
+  coinsOnLevel: 3
+  floorCount: 10
+  floorLength: 5
+  floorWidth: 6
+  wallMinOffset: 3
+  wallMaxOffset: 5
+  player: {fileID: 0}

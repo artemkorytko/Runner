@@ -2,169 +2,78 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private UIManager _uiManager;
-    [Header("References")]
-    [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private GameObject floorPrefab;
-    [SerializeField] private GameObject finishPrefab;
-    [SerializeField] private GameObject wallPrefab;
-    [SerializeField] private GameObject coinPrefab;
+    [SerializeField] private Level level;
+    [SerializeField] private UIManager uiManager;
+    [SerializeField] private InputHandler inputHandler;
 
-    [Header("Road settings")] 
-    [SerializeField] private int coinsOnLevel = 3;
-    [SerializeField] private int floorCount = 10;
-    [SerializeField] private float floorLength = 5;
-    [SerializeField] private float floorWidth = 6;
-
-    [SerializeField] private float wallMinOffset = 3;
-    [SerializeField] private float wallMaxOffset = 5;
-
-    private PlayerController _player;
-    private Vector3 _playerLocalePosition = Vector3.zero;
     private int _coins = 0;
-    private List<GameObject> _spawnedWalls = new List<GameObject>();
 
     private void Start()
     {
-        GenerateLevel();
+        inputHandler = GetComponent<InputHandler>();
+        NewGame();
+        uiManager.UpdateCoinText(_coins.ToString());
+        level.player.StartCoins(_coins);
     }
 
-    public void GenerateLevel()
+    private void Update()
     {
-        ClearLevel();
-        GenerateRoad();
-        GenerateWall();
-        SpawnCoin();
-        SpawnPlayer();
-        StartGame();
-    }
-
-    private void GenerateRoad()
-    {
-        Vector3 startPoint = Vector3.zero;
-        for (int i = 0; i < floorCount; i++)
+        if (!inputHandler.IsHold && level.player.IsActive)
         {
-            var part = Instantiate(floorPrefab, transform);
-            part.transform.localPosition = startPoint;
-            part.transform.localScale = new Vector3(floorWidth, part.transform.localScale.y, floorLength);
-            startPoint.z += floorLength;
+           Time.timeScale = .3f;
         }
-        GenerateFinish(startPoint);
+        else
+        {
+            Time.timeScale = 1f;
+        }
+        
+    }
+
+    public void NewGame()
+    {
+        level.GenerateLevel();
+        UnSubPlayer();
     }
 
     public void StartGame()
     {
-        _player.IsActive = true;
+        level.StartGame();
+        uiManager.UpdateCoinText(_coins.ToString());
+        level.player.OnDied += OnPlayerDead;
+        level.player.OnFinish += OnPlayerFinish;
+        level.player.OnTakeCoin += OnPlayerTakeCoin;
     }
 
-    private void GenerateFinish(Vector3 startPoint)
+    private void UnSubPlayer()
     {
-        var finish = Instantiate(finishPrefab, transform);
-        finish.transform.localPosition = new Vector3(startPoint.x, startPoint.y, startPoint.z - floorLength * .5f);
+        level.player.OnDied -= OnPlayerDead;
+        level.player.OnFinish -= OnPlayerFinish;
+        level.player.OnTakeCoin -= OnPlayerTakeCoin;
     }
 
-    private void SpawnPlayer()
+    public void RestartGame()
     {
-        _player = Instantiate(playerPrefab, transform).GetComponent<PlayerController>();
-        _player.transform.position = new Vector3(_player.transform.position.x, _player.transform.position.y, _player.transform.position.z + floorLength * .5f);
-        _player.OnDied += EndByDeath;
-        _player.OnFinish += EndByFinish;
-        _player.OnTakeCoin += UpdateUI;
+        NewGame();
     }
 
-    private void UpdateUI()
+    private void OnPlayerTakeCoin()
     {
-        _uiManager.UpdateCoinText(_player.GetCoins.ToString());
+        uiManager.UpdateCoinText((_coins + level.player.GetCoins).ToString());
     }
 
-    private void EndByFinish()
+    private void OnPlayerFinish()
     {
-        GenerateLevel();
+        _coins += level.player.GetCoins;
+        uiManager.UpdateCoinText(_coins.ToString());
+        uiManager.ShowWin();
+        Time.timeScale = 1;
     }
 
-    private void EndByDeath()
+    private void OnPlayerDead()
     {
-        GenerateLevel();
+        uiManager.ShowFail();
     }
-
-    private void GenerateWall()
-    {
-        float fullLength = floorCount * floorLength;
-        float offsetX = floorWidth / 3;
-        float startPosition = floorLength;
-        float endPosition = fullLength - floorLength - 1;
-
-        while (startPosition <= endPosition)
-        {
-            var noise = Random.Range(wallMinOffset, wallMaxOffset);
-            var randomX = Random.Range(0, 3);
-            
-            var startZ = startPosition + noise;
-            var startX = randomX == 0 ? 0 : randomX == 1 ? -offsetX : offsetX;
-
-            GameObject wall = Instantiate(wallPrefab, transform);
-            wall.transform.localPosition = new Vector3(startX, wall.transform.localScale.y / 2, startZ);
-            startPosition += floorLength;
-            
-            _spawnedWalls.Add(wall);
-        }
-    }
-
-    private void SpawnCoin()
-    {
-        int maxCoins = _spawnedWalls.Count;
-        float offsetX = floorWidth / 3;
-        List<Vector3> coinPosition = new List<Vector3>();
-        
-        for (int i = 0; i < coinsOnLevel; i++)
-        {
-            Vector3 wallPos = _spawnedWalls[Random.Range(0, maxCoins)].transform.position;
-            float posX = 0;
-            int rand = Random.Range(0, 2);
-            if (wallPos.x == 0)
-            {
-                posX = offsetX;
-                if (rand == 0)
-                {
-                    posX = -offsetX;
-                }
-            } 
-            else if (wallPos.x < 0)
-            {
-                if (rand == 0)
-                {
-                    posX = offsetX;
-                }
-            }
-            else if (wallPos.x > 0)
-            {
-                if (rand == 0)
-                {
-                    posX = -offsetX;
-                }
-            }
-            coinPosition.Add(new Vector3(posX, 1, wallPos.z));
-        }
-
-        foreach (var pos in coinPosition)
-        {
-            GameObject coin = Instantiate(coinPrefab, transform);
-            coin.transform.position = pos;
-        }
-    }
-
-    private void ClearLevel()
-    {
-        foreach (Transform item in transform)
-        {
-            Destroy(item.gameObject);
-        }
-        _spawnedWalls.Clear();
-        _player = null;
-    }
-
 }
