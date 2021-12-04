@@ -24,8 +24,10 @@ public class Level : MonoBehaviour
     [Header("Items Settings")]
     [SerializeField] private GameObject[] itemPrefabs;
 
+    public List<GameObject> itemObjects = new List<GameObject>();
 
     private PlayerController player;
+
     public PlayerController Player => player;
 
     private Vector3 playerLocalPosition = Vector3.zero;
@@ -37,6 +39,16 @@ public class Level : MonoBehaviour
         GenerateRoad();
         GenerateWalls();
         GenerateItems();
+        GeneratePlayer();
+    }
+    public void RestartLevel()
+    {
+        Destroy(player.gameObject);
+        foreach (var item in itemObjects)
+        {
+           item.transform.GetChild(0).gameObject.SetActive(true);
+        }
+        player = null;
         GeneratePlayer();
     }
     public void StartGame()
@@ -103,9 +115,10 @@ public class Level : MonoBehaviour
     }
     private void GenerateItems()
     {
+        float noiseItem = Random.Range(5, 15);
         float fullLength = floorCount * floorLenght;
         float offsetX = floorWidth / 3f;
-        float startPosZ = floorLenght + 10;
+        float startPosZ = floorLenght + noiseItem;
         float endPosZ = fullLength - floorLenght;
 
         while (startPosZ < endPosZ)
@@ -122,6 +135,8 @@ public class Level : MonoBehaviour
                 itemIndex = Random.Range(0, itemPrefabs.Length);
             }
             GameObject item = Instantiate(itemPrefabs[itemIndex], transform);
+            itemObjects.Add(item);
+
             Vector3 localPos = Vector3.zero;
             localPos.x = startX;
             localPos.z = startZ;
@@ -131,5 +146,6 @@ public class Level : MonoBehaviour
         }
 
     }
+
 }
 

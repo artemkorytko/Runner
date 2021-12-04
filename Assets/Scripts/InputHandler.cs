@@ -9,7 +9,7 @@ public class InputHandler : MonoBehaviour
     private bool isHold;
     private float relativeOffset;
 
-    public float HorizontalAxis => relativeOffset;
+    public float HorizontalAxis => -relativeOffset;
 
     private void Update()
     {

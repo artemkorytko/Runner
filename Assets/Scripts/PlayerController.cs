@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float lerpSpeed = 30;
-    [SerializeField] private float rotationAngle = 10;
+    [SerializeField] private float rotationAngle = 20;
     private float roadWidth;
 
     private Animator animator;
@@ -23,14 +23,14 @@ public class PlayerController : MonoBehaviour
     private float horizontal = 0f;
     private InputHandler inputHandler;
     private Transform viewModel;
-   
+
 
     public bool IsActive
     {
         get => isActive;
-        set 
+        set
         {
-            if(value == true)
+            if (value == true)
             {
                 animator.SetTrigger(RUN);
             }
@@ -54,25 +54,28 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        float offsetX = -inputHandler.HorizontalAxis * roadWidth;
+        float offsetX = inputHandler.HorizontalAxis * roadWidth;
         Vector3 position = transform.localPosition;
         position.x += offsetX;
-        position.x = Mathf.Clamp(position.x, -roadWidth*0.5f, roadWidth*0.5f);
+        position.x = Mathf.Clamp(position.x, -roadWidth * 0.5f, roadWidth * 0.5f);
 
-        Vector3 rotation = viewModel.localRotation.eulerAngles;
-        rotation.y = Mathf.LerpAngle(rotation.y, Mathf.Sin(offsetX) * rotationAngle, lerpSpeed* Time.deltaTime);
-        viewModel.localRotation = Quaternion.Euler(rotation);
+        if(offsetX != 0)
+        {
+            Vector3 rotation = viewModel.localRotation.eulerAngles;
+            rotation.y = Mathf.LerpAngle(rotation.y, Mathf.Sign(offsetX) * rotationAngle, lerpSpeed * Time.deltaTime);
+            viewModel.localRotation = Quaternion.Euler(rotation);
+        }
+       
         transform.localPosition = position;
-
-       // horizontal = Input.GetAxis("Horizontal");
-       // transform.Translate(horizontal * transform.right * moveSpeed * Time.deltaTime);
+        // horizontal = Input.GetAxis("Horizontal");
+        // transform.Translate(horizontal * transform.right * moveSpeed * Time.deltaTime);
         transform.Translate(transform.forward * moveSpeed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-      
-        if(collision.gameObject.CompareTag("Wall"))
+
+        if (collision.gameObject.CompareTag("Wall"))
         {
             Die();
         }
@@ -80,7 +83,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("Finish"))
+        if (other.CompareTag("Finish"))
         {
             Finish();
         }

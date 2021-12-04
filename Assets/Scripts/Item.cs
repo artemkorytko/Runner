@@ -43,6 +43,7 @@ public class Item : MonoBehaviour
 			Debug.Log("Health");
 		}
 		
-		Destroy(gameObject);
+		gameObject.SetActive(false);
 	}
+	
 }

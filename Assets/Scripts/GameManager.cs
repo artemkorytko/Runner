@@ -30,11 +30,12 @@ public class GameManager : MonoBehaviour
         level.GenerateLevel();
         StartGame();
     }
-    public void Restart()
+    public void RestartLevel()
     {
-        //homework
-        //TODO : restart logic
-        NextLevel();
+        UnSubscribePlayerAction();
+        level.RestartLevel();
+        StartGame();
+       
     }
     private void SubscribePlayerAction()
     {
@@ -50,12 +51,10 @@ public class GameManager : MonoBehaviour
     private void OnPlayerFinish()
     {
         uiCcontroller.OpenWin();
-        //win ui
     }
 
     private void OnPlayerDeath()
     {
         uiCcontroller.OpenLost();
-        //lost ui
     }
 }

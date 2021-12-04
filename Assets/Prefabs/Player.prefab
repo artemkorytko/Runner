@@ -629,8 +629,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  lerpSpeed: 30
-  rotationAngle: 10
+  lerpSpeed: 10
+  rotationAngle: 20
 --- !u!136 &5602750607573263297
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -777,7 +777,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.4039216, g: 0.20392159, b: 0.5176471, a: 0}
+  m_BackGroundColor: {r: 0.41568628, g: 0, b: 0.6509804, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1454,7 +1454,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 6456940790829494949, guid: 3bbf77814392947ef9393be541c8cfbc, type: 3}
+  - {fileID: 2100000, guid: d611b17a21a73a240bc98effe4de348b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
