@@ -111,6 +111,7 @@ public class Level : MonoBehaviour
             Destroy(child.gameObject);
         }
         player = null;
+        itemObjects.Clear();
 
     }
     private void GenerateItems()
@@ -133,16 +134,18 @@ public class Level : MonoBehaviour
             if (itemPrefabs.Length > 0)
             {
                 itemIndex = Random.Range(0, itemPrefabs.Length);
+                GameObject item = Instantiate(itemPrefabs[itemIndex], transform);
+                itemObjects.Add(item);
+
+                Vector3 localPos = Vector3.zero;
+                localPos.x = startX;
+                localPos.z = startZ;
+
+                item.transform.localPosition = localPos;
+                startPosZ += floorLenght;
+
             }
-            GameObject item = Instantiate(itemPrefabs[itemIndex], transform);
-            itemObjects.Add(item);
 
-            Vector3 localPos = Vector3.zero;
-            localPos.x = startX;
-            localPos.z = startZ;
-
-            item.transform.localPosition = localPos;
-            startPosZ += floorLenght;
         }
 
     }
