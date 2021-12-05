@@ -18,16 +18,15 @@ public class Level : MonoBehaviour
     [SerializeField] private int floorCount = 10;
     [SerializeField] private float floorLength = 5;
     [SerializeField] private float floorWidth = 6;
+    //[SerializeField] private int turnsCount = 2;
 
     [SerializeField] private float wallMinOffset = 3;
     [SerializeField] private float wallMaxOffset = 5;
 
-    private int _coins = 0;
     private List<GameObject> _spawnedWalls = new List<GameObject>();
 
     
     public PlayerController player;
-    public int GetCoins => _coins;
 
     public void GenerateLevel()
     {
@@ -99,7 +98,13 @@ public class Level : MonoBehaviour
         
         for (int i = 0; i < coinsOnLevel; i++)
         {
-            Vector3 wallPos = _spawnedWalls[Random.Range(0, maxCoins)].transform.position;
+            int randPos = Random.Range(0, maxCoins);
+            int randPosChecker = randPos;
+            while (randPos == randPosChecker)
+            {
+                randPos = Random.Range(0, maxCoins);
+            }
+            Vector3 wallPos = _spawnedWalls[randPos].transform.position;
             float posX = 0;
             int rand = Random.Range(0, 2);
             if (wallPos.x == 0)

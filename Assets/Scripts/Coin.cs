@@ -18,15 +18,15 @@ public class Coin : MonoBehaviour
         {
             effect.Play();
             Destroy(gameObject);
+            Destroy(effect.gameObject, 1f);
             return _price;
         }
     }
 
     private void Start()
     {
-        effect = Instantiate(_effect).GetComponent<ParticleSystem>();
+        effect = Instantiate(_effect, transform.parent).GetComponent<ParticleSystem>();
         effect.transform.position = transform.position;
-        Destroy(effect.gameObject, 10f);
     }
 
     private void Update()

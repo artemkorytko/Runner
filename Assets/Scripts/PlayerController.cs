@@ -15,9 +15,10 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private bool _isActive;
     private int _coins = 0;
-    private InputHandler _inputHandler;
+    //private InputHandler _inputHandler;
+    private float _moveOffset = 0;
 
-    [SerializeField] private GameObject camera;
+    [SerializeField] private GameObject cameraPivot;
     [SerializeField] private float speed = 2f;
     [SerializeField] private float roadWidth = 6;
     [SerializeField] private float rotationAngel = 10;
@@ -29,6 +30,14 @@ public class PlayerController : MonoBehaviour
 
     public int GetCoins => _coins;
     public void StartCoins(int value) => _coins = value;
+
+    public float SetMoveOffset
+    {
+        set
+        {
+            _moveOffset = value;
+        }
+    }
 
     public bool IsActive
     {
@@ -43,7 +52,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _inputHandler = GetComponent<InputHandler>();
+        //_inputHandler = GetComponent<InputHandler>();
         _animator = GetComponent<Animator>();
     }
     private void Update()
@@ -78,7 +87,8 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        float inputX = -_inputHandler.HorizontalAxis * roadWidth;
+        //float inputX = -_inputHandler.HorizontalAxis * roadWidth;
+        float inputX = -_moveOffset * roadWidth;
         Vector3 position = transform.position;
         position.x += inputX;
         position.x = Mathf.Clamp(position.x, -roadWidth * .5f, roadWidth * .5f);
@@ -109,7 +119,7 @@ public class PlayerController : MonoBehaviour
         for (int i = 0; i < 190; i++)
         {
             yield return new WaitForFixedUpdate();
-            camera?.transform.Rotate(new Vector3(0, 1, 0));
+            cameraPivot?.transform.Rotate(new Vector3(0, 1, 0));
         }
     }
 }
