@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4842b872af63e374984b286db62778ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CollectibleType: 0
+  CollectibleType: 1
   rotate: 1
   rotationSpeed: 50
   collectSound: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}

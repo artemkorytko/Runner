@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: baef7505b9e48404cb74585601f49ff9, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.5171874, g: 0.37541887, b: 0.5572844, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -373,6 +373,7 @@ MonoBehaviour:
   floorPrefab: {fileID: 2464669913101967586, guid: 0dd97be4745f72047882b857cc24ecf2, type: 3}
   wallPrefab: {fileID: 3329945613159396381, guid: 9a77f3ec8d96d724aa76a4f31b30bfac, type: 3}
   finishPrefab: {fileID: 7653155079519259146, guid: 32fe5e39f368dc14488507c9f6df6a1c, type: 3}
+  shader: {fileID: 4800000, guid: 589b3707079b27845a0e49dafe2c0bd6, type: 3}
   floorCount: 10
   floorLenght: 20
   floorWidth: 6

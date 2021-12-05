@@ -38,10 +38,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6625456933485906851}
     m_Modifications:
-    - target: {fileID: 998385493380857131, guid: 03a74518798668e4295c790a91203ad7, type: 3}
-      propertyPath: collectSound
-      value: 
-      objectReference: {fileID: 8300000, guid: 52320e590bf774734a288886eba557ba, type: 3}
     - target: {fileID: 6579989757370665776, guid: 03a74518798668e4295c790a91203ad7, type: 3}
       propertyPath: m_Name
       value: Jewel

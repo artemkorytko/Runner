@@ -11,6 +11,8 @@ public class Level : MonoBehaviour
     [SerializeField] private GameObject wallPrefab;
     [SerializeField] private GameObject finishPrefab;
 
+    [Header("Shader Settings")]
+    [SerializeField] private Shader shader;
 
     [Header("Road Settings")]
     [SerializeField] private int floorCount = 10;
@@ -24,7 +26,7 @@ public class Level : MonoBehaviour
     [Header("Items Settings")]
     [SerializeField] private GameObject[] itemPrefabs;
 
-    public List<GameObject> itemObjects = new List<GameObject>();
+    private List<GameObject> itemObjects = new List<GameObject>();
 
     private PlayerController player;
 
@@ -32,7 +34,14 @@ public class Level : MonoBehaviour
 
     private Vector3 playerLocalPosition = Vector3.zero;
 
-
+    private void Start()
+    {
+      /*  GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        foreach (GameObject go in allObjects)
+        {
+            Debug.Log(go);
+        }*/
+    }
     public void GenerateLevel()
     {
         ClearLevel();
@@ -58,9 +67,14 @@ public class Level : MonoBehaviour
     private void GenerateRoad()
     {
         Vector3 startPoint = Vector3.zero;
+        Vector2 Offset = new Vector2(0, -20);
         for (int i = 0; i < floorCount; i++)
         {
+            
             var part = Instantiate(floorPrefab, transform);
+            part.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.shader = shader;
+            part.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetVector("_QOffset", Offset);
+
             part.transform.localPosition = startPoint;
             part.transform.localScale = new Vector3(floorWidth, part.transform.localScale.y, floorLenght);
 
@@ -80,6 +94,7 @@ public class Level : MonoBehaviour
         float offsetX = floorWidth / 3f;
         float startPosZ = floorLenght;
         float endPosZ = fullLength - floorLenght;
+        Vector2 Offset = new Vector2(0, -20);
 
         while (startPosZ < endPosZ)
         {
@@ -90,6 +105,9 @@ public class Level : MonoBehaviour
             var startX = randomX == 0 ? 0 : randomX == 1 ? -offsetX : offsetX;
 
             GameObject wall = Instantiate(wallPrefab, transform);
+            wall.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.shader = shader;
+            wall.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetVector("_QOffset", Offset);
+
             Vector3 localPos = Vector3.zero;
             localPos.x = startX;
             localPos.z = startZ;
@@ -121,7 +139,7 @@ public class Level : MonoBehaviour
         float offsetX = floorWidth / 3f;
         float startPosZ = floorLenght + noiseItem;
         float endPosZ = fullLength - floorLenght;
-
+        Vector2 Offset = new Vector2(0,-20);
         while (startPosZ < endPosZ)
         {
             var noiseZ = Random.Range(wallMinOffset, wallMaxOffset);
@@ -135,6 +153,8 @@ public class Level : MonoBehaviour
             {
                 itemIndex = Random.Range(0, itemPrefabs.Length);
                 GameObject item = Instantiate(itemPrefabs[itemIndex], transform);
+                item.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.shader = shader;
+                item.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetVector("_QOffset", Offset);
                 itemObjects.Add(item);
 
                 Vector3 localPos = Vector3.zero;
