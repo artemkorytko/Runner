@@ -8,15 +8,22 @@ public class PlayerController : MonoBehaviour
     private const string RUN = "Run";
     private const string FALL = "Fall";
     private const string DANCE = "Dance";
-    private bool isSeed;
+
+    [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float lerpSpeed = 30;
+    [SerializeField] private float rotationAngle = 10;
+    private float roadWidth;
+    
 
     private Animator animator;
+    private InputHandler inputHandler;
+    private Transform viewModel;
 
     public event Action OnFinish;
     public event Action OnDied;
 
     private bool isActive;
-    [SerializeField] private float moveSpeed = 10;
+   
 
     public bool IsActive
     {
@@ -35,6 +42,8 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+        inputHandler = GetComponent<InputHandler>();
+        viewModel = transform.GetChild(0);
     }
 
     void Update()
@@ -47,14 +56,22 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        float offsetX = inputHandler.HorizontalAxis * roadWidth;
+        Vector3 position = transform.localPosition;
+        position.x += offsetX;
+        position.x = Mathf.Clamp(position.x, -roadWidth * 0.5f, roadWidth * 0.5f);
+
+        Vector3 rotation = viewModel.localRotation.eulerAngles;
+        rotation.y = Mathf.LerpAngle(rotation.y, Mathf.Sign(offsetX) * rotationAngle, lerpSpeed * Time.deltaTime);
+        viewModel.localRotation = Quaternion.Euler(rotation);
+
+        transform.localPosition =position;
         transform.Translate(transform.forward * moveSpeed * Time.deltaTime);
     }   
 
     private void OnCollisionEnter(Collision collision)
     {
-       if(collision.gameObject.CompareTag("Wall") 
-            && collision.gameObject.layer == 6 
-            && collision.gameObject.GetComponent<Wall>())
+       if(collision.gameObject.CompareTag("Wall"))
         {
            Died();
         }
@@ -80,5 +97,10 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger(DANCE);
         IsActive = false;
         OnFinish?.Invoke();
+    }
+
+    public void SetupRoadWidth(float value)
+    {
+        roadWidth = value;
     }
 }
