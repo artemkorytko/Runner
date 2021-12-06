@@ -2,7 +2,7 @@ Shader "Custom/Curved" {
 	Properties{
 		_MainTex("Base (RGB)", 2D) = "white" {}
 		_QOffset("Offset", Vector) = (0,0,0,0)
-		_Dist("Distance", Float) = 100.0
+		_Dist("Distance", Float) = 1.0
 	}
 		SubShader{
 			Tags { "RenderType" = "Opaque" }

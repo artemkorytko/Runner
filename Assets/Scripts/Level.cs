@@ -34,13 +34,44 @@ public class Level : MonoBehaviour
 
     private Vector3 playerLocalPosition = Vector3.zero;
 
-    private void Start()
+
+    private float maxRoadTurnX = 20f;
+    private float maxRoadTurnY = 20f;
+    private float currentRoadOffsetX = -20;
+    private float currentRoadOffsetY = 0;
+    private bool turnRight;
+
+    private void Update()
     {
-      /*  GameObject[] allObjects = FindObjectsOfType<GameObject>();
-        foreach (GameObject go in allObjects)
+       
+    }
+    private void SetShader()
+    {
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        
+      /*  if (player.PlayerPosZ > 30 && player.PlayerPosZ < 60)
         {
-            Debug.Log(go);
-        }*/
+            if (Mathf.Abs(currentRoadOffsetX) < maxRoadTurnX)
+            {
+                currentRoadOffsetX = Mathf.LerpAngle(currentRoadOffsetX, currentRoadOffsetX - 3, 1 * Time.deltaTime);
+            }
+        }
+        else if(player.PlayerPosZ > 100 && player.PlayerPosZ < 150)
+        {
+            currentRoadOffsetX = Mathf.LerpAngle(currentRoadOffsetX, currentRoadOffsetX + 3, 1 * Time.deltaTime);
+            currentRoadOffsetY = Mathf.LerpAngle(currentRoadOffsetY, currentRoadOffsetY - 3, 1 * Time.deltaTime);
+        }
+
+
+        Vector2 Offset = new Vector2(currentRoadOffsetX, currentRoadOffsetY);*/
+        foreach (GameObject gameObject in allObjects)
+        {
+            if (gameObject.layer == 7)
+            {
+                gameObject.GetComponent<Renderer>().material.shader = shader;
+               // gameObject.GetComponent<Renderer>().material.SetVector("_QOffset", Offset);
+            }
+        }
     }
     public void GenerateLevel()
     {
@@ -49,13 +80,14 @@ public class Level : MonoBehaviour
         GenerateWalls();
         GenerateItems();
         GeneratePlayer();
+        SetShader();
     }
     public void RestartLevel()
     {
         Destroy(player.gameObject);
         foreach (var item in itemObjects)
         {
-           item.transform.GetChild(0).gameObject.SetActive(true);
+            item.transform.GetChild(0).gameObject.SetActive(true);
         }
         player = null;
         GeneratePlayer();
@@ -67,14 +99,10 @@ public class Level : MonoBehaviour
     private void GenerateRoad()
     {
         Vector3 startPoint = Vector3.zero;
-        Vector2 Offset = new Vector2(0, -20);
         for (int i = 0; i < floorCount; i++)
         {
-            
-            var part = Instantiate(floorPrefab, transform);
-            part.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.shader = shader;
-            part.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetVector("_QOffset", Offset);
 
+            var part = Instantiate(floorPrefab, transform);
             part.transform.localPosition = startPoint;
             part.transform.localScale = new Vector3(floorWidth, part.transform.localScale.y, floorLenght);
 
@@ -94,7 +122,6 @@ public class Level : MonoBehaviour
         float offsetX = floorWidth / 3f;
         float startPosZ = floorLenght;
         float endPosZ = fullLength - floorLenght;
-        Vector2 Offset = new Vector2(0, -20);
 
         while (startPosZ < endPosZ)
         {
@@ -105,9 +132,6 @@ public class Level : MonoBehaviour
             var startX = randomX == 0 ? 0 : randomX == 1 ? -offsetX : offsetX;
 
             GameObject wall = Instantiate(wallPrefab, transform);
-            wall.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.shader = shader;
-            wall.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetVector("_QOffset", Offset);
-
             Vector3 localPos = Vector3.zero;
             localPos.x = startX;
             localPos.z = startZ;
@@ -130,7 +154,8 @@ public class Level : MonoBehaviour
         }
         player = null;
         itemObjects.Clear();
-
+        currentRoadOffsetX = 0;
+        currentRoadOffsetX = -20;
     }
     private void GenerateItems()
     {
@@ -139,7 +164,7 @@ public class Level : MonoBehaviour
         float offsetX = floorWidth / 3f;
         float startPosZ = floorLenght + noiseItem;
         float endPosZ = fullLength - floorLenght;
-        Vector2 Offset = new Vector2(0,-20);
+
         while (startPosZ < endPosZ)
         {
             var noiseZ = Random.Range(wallMinOffset, wallMaxOffset);
@@ -153,8 +178,6 @@ public class Level : MonoBehaviour
             {
                 itemIndex = Random.Range(0, itemPrefabs.Length);
                 GameObject item = Instantiate(itemPrefabs[itemIndex], transform);
-                item.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.shader = shader;
-                item.transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetVector("_QOffset", Offset);
                 itemObjects.Add(item);
 
                 Vector3 localPos = Vector3.zero;
@@ -169,6 +192,7 @@ public class Level : MonoBehaviour
         }
 
     }
+
 
 }
 

@@ -23,7 +23,11 @@ public class PlayerController : MonoBehaviour
     private float horizontal = 0f;
     private InputHandler inputHandler;
     private Transform viewModel;
-
+    private float playerPosZ;
+    public float PlayerPosZ
+    {
+        get => playerPosZ;
+    }
 
     public bool IsActive
     {
@@ -70,11 +74,12 @@ public class PlayerController : MonoBehaviour
         // horizontal = Input.GetAxis("Horizontal");
         // transform.Translate(horizontal * transform.right * moveSpeed * Time.deltaTime);
         transform.Translate(transform.forward * moveSpeed * Time.deltaTime);
+
+        playerPosZ = position.z;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-
         if (collision.gameObject.CompareTag("Wall"))
         {
             Die();
