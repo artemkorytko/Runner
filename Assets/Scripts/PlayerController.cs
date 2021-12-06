@@ -10,13 +10,19 @@ public class PlayerController : MonoBehaviour
     private const string FALL = "Fall";
     private const string DANCE = "Dance";
 
+    [SerializeField] private float moveSpeed = 10;
+    [SerializeField] private float lerpSpeed = 30;
+    [SerializeField] private float rotationAngle = 10;
+    private float roadWith;
+
     private Animator animator;
+    private InputHandler inputHandler;
+    private Transform viewModel;
 
     public event Action OnFinish;
     public event Action OnDied;
 
-    private bool isActive; // = isAlive
-    [SerializeField] private float moveSpeed = 10;
+    private bool isActive;
     public bool IsActive
     {
         get => isActive;
@@ -32,6 +38,8 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+        inputHandler = GetComponent<InputHandler>();
+        viewModel = transform.GetChild(0);
     }
     void Update()
     {
@@ -43,6 +51,16 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
+        float offsetX = inputHandler.HorizontalAxis * roadWith;
+        Vector3 position = transform.localPosition;
+        position.x += offsetX;
+        position.x = Mathf.Clamp(position.x, -roadWith * 0.5f, roadWith * 0.5f);
+
+        Vector3 rotation = viewModel.localRotation.eulerAngles;
+        rotation.y = Mathf.LerpAngle(rotation.y, Mathf.Sign(offsetX) * rotationAngle, lerpSpeed * Time.deltaTime);
+        viewModel.localRotation = Quaternion.Euler(rotation);
+
+        transform.localPosition = position;
         transform.Translate(transform.forward * moveSpeed * Time.deltaTime);
     }
 
@@ -74,5 +92,10 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger(DANCE);
         OnFinish?.Invoke();
+    }
+
+    public void SetupRoadWith(float value)
+    {
+        roadWith = value;
     }
 }

@@ -1,112 +1,61 @@
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+namespace Assets.Scripts
 {
-    [Header("References")]
-    [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private GameObject floorPrefab;
-    [SerializeField] private GameObject finishPrefab;
-    [SerializeField] private GameObject wallPrefab;
-
-    [Header("Road settings")]
-    [SerializeField] private int floorCount = 10;
-    [SerializeField] private float floorLength = 5f;
-    [SerializeField] private float floorWidth = 6f;
-
-    [Header("Wall settings")]
-    [SerializeField] private float wallMinOffset = 3f;
-    [SerializeField] private float wallMaxOffset = 5f;
-
-    private PlayerController player;
-
-    private Vector3 playerLocalPosition = Vector3.zero;
-
-    private void Start()
+    public class GameManager : MonoBehaviour
     {
-        GenerateLevel();
-        StartGame();
-    }
-
-    public void GenerateLevel()
-    {
-        ClearLevel();
-        GenerateRoad();
-        GenerateWalls();
-        GeneratePlayer();
-    }
-
-    public void StartGame()
-    {
-        player.IsActive = true;
-    }
-
-    private void GenerateRoad()
-    {
-        Vector3 startPoint = Vector3.zero;
-        for (int i = 0; i < floorCount; i++)
+        private Level level;
+        private UI_Controller uiController;
+        private void Awake()
         {
-            var part = Instantiate(floorPrefab, transform);
-            part.transform.localPosition = startPoint;
-            part.transform.localScale = new Vector3(floorWidth, part.transform.localScale.y, floorLength);
-
-            startPoint.z += floorLength;
+            level = GetComponent<Level>();
+            uiController = FindObjectOfType<UI_Controller>();
         }
-        GenerateFinish(startPoint);
-    }
 
-    private void GeneratePlayer()
-    {
-        player = Instantiate(playerPrefab, transform).GetComponent<PlayerController>();
-    }
-
-    private void GenerateWalls()
-    {
-        float fullLength = floorCount * floorLength;
-        float midOfFloor = floorLength * 0.5f;
-        float offsetX = floorWidth / 3f;
-        float startPosZ = floorLength;
-        float endPosZ = fullLength - floorLength;
-
-        while (startPosZ < endPosZ)
+        private void Start()
         {
-            var noiseZ = Random.Range(wallMinOffset, wallMaxOffset);
-            var startZ = startPosZ + noiseZ;
+            level.GenerateLevel();
+            uiController.OpenMenu();
+        }
 
-            var randomX = Random.Range(0, 3);
-            var startX = 0f;
-            startX = randomX == 0? 0: randomX == 1 ? -offsetX : offsetX;
+        public void StartGame()
+        {
+            level.StartGame();
+            SubPlayerAction();
+            uiController.OpenGame();
+        }
 
-            GameObject wall = Instantiate(wallPrefab, transform);
-            Vector3 localPos = Vector3.zero;
-            localPos.x = startX;
-            localPos.z = startZ;
+        private void SubPlayerAction()
+        {
+            level.Player.OnDied += OnPlayerDeath;
+            level.Player.OnFinish += OnPlayerFinish;
+        }
+        private void UnSubPlayerAction()
+        {
+            level.Player.OnDied -= OnPlayerDeath;
+            level.Player.OnFinish -= OnPlayerFinish;
+        }
 
-            wall.transform.localPosition = localPos;
-            startPosZ += floorLength;
+        public void RestartLevel()
+        {
+            NextLevel(); //TODO: restart
+        }
+        public void NextLevel()
+        {
+            UnSubPlayerAction();
+            level.GenerateLevel();
+            StartGame();
+        }
+        private void OnPlayerFinish()
+        {
+            uiController.OpenWin();
+        }
+
+        private void OnPlayerDeath()
+        {
+            uiController.OpenLose();
         }
     }
-    private void GenerateFinish(Vector3 startPoint)
-    {
-        var finish = Instantiate(finishPrefab, transform);
-        finish.transform.localPosition = startPoint;
-    }
-    private void ClearLevel()
-    {
-        foreach (Transform child in transform)
-        {
-            Destroy(child.gameObject);
-        }
-        player = null;
-    }
-
 }
-/* if(Input.GetMouseButtonDown(0))
- {
-     player = Instantiate(playerPrefab, Vector3.zero, Quaternion.identity).GetComponent<PlayerController>();
- }
- if(Input.GetMouseButtonDown(1))
- {
-     player.IsActive = true;
- }*/
