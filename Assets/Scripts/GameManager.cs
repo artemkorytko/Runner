@@ -36,14 +36,20 @@ public class GameManager : MonoBehaviour
 
     private void UpdateCamera()
     {
-        mainCamera.transform.position = new Vector3(0, 
+        Vector3 camNewPos = new Vector3(0, 
             _gameLevel.player.transform.position.y + 5.5f, 
             _gameLevel.player.transform.position.z - 7f);
+        mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, camNewPos, Time.deltaTime * 5f);
+
         camTarget = new Vector3(_gameLevel.player.transform.position.x,
             _gameLevel.player.transform.position.y + 2.5f,
             _gameLevel.player.transform.position.z + 10f);
+
+        Vector3 direction = camTarget - mainCamera.transform.position;
         
-        mainCamera.transform.LookAt(camTarget);
+        Quaternion toRotation = Quaternion.FromToRotation(mainCamera.transform.forward, direction);
+        
+        mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, toRotation, Time.deltaTime * 2f);
         
     }
     
