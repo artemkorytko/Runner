@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class UIcontroller : MonoBehaviour
@@ -10,7 +11,7 @@ public class UIcontroller : MonoBehaviour
     [SerializeField] private GameObject winScreen;
     [SerializeField] private GameObject lostScreen;
 
-
+    
     public void OpenMenu()
     {
         menuScreen.SetActive(true);
@@ -39,4 +40,5 @@ public class UIcontroller : MonoBehaviour
         winScreen.SetActive(false);
         lostScreen.SetActive(true);
     }
+   
 }

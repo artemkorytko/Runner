@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -20,10 +21,13 @@ public class PlayerController : MonoBehaviour
     public event Action OnDie;
 
     private bool isActive;
-    private float horizontal = 0f;
+    //private float horizontal = 0f;
     private InputHandler inputHandler;
     private Transform viewModel;
     private float playerPosZ;
+
+    private Wallet wallet;
+
     public float PlayerPosZ
     {
         get => playerPosZ;
@@ -46,8 +50,10 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         inputHandler = GetComponent<InputHandler>();
         viewModel = transform.GetChild(0);
+        wallet = GetComponent<Wallet>();
+        Debug.Log(wallet.Amount);
     }
-
+   
     void Update()
     {
         if (!isActive)

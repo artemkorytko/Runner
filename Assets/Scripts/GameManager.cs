@@ -7,7 +7,8 @@ public class GameManager : MonoBehaviour
 {
     private Level level;
     private UIcontroller uiCcontroller;
-
+    private GamePanel gamePanel;
+    private Wallet wallet;
     private void Awake()
     {
         level = GetComponent<Level>();
@@ -18,22 +19,38 @@ public class GameManager : MonoBehaviour
         level.GenerateLevel();
         uiCcontroller.OpenMenu();
     }
+
     public void StartGame()
     {
         level.StartGame();
         SubscribePlayerAction();
         uiCcontroller.OpenGame();
+        gamePanel = FindObjectOfType<GamePanel>();
+        wallet = FindObjectOfType<Wallet>();
+        wallet.ClearWallet();
+        SubscribeWallet();
+
+    }
+    public void ContinueGame()
+    {
+        level.StartGame();
+        SubscribePlayerAction();
+        uiCcontroller.OpenGame();
+        gamePanel = FindObjectOfType<GamePanel>();
+        wallet = FindObjectOfType<Wallet>();
+        SubscribeWallet();
     }
     public void NextLevel()
     {
         UnSubscribePlayerAction();
         level.GenerateLevel();
-        StartGame();
+        ContinueGame();
     }
     public void RestartLevel()
     {
         UnSubscribePlayerAction();
         level.RestartLevel();
+        wallet.ClearWallet();
         StartGame();
        
     }
@@ -56,5 +73,18 @@ public class GameManager : MonoBehaviour
     private void OnPlayerDeath()
     {
         uiCcontroller.OpenLost();
+    }
+
+    private void SubscribeWallet()
+    {
+        wallet.WalletChanged += OnWalletChanged;
+    }
+    private void UnsubscribeWallet()
+    {
+        wallet.WalletChanged -= OnWalletChanged;
+    }
+    private void OnWalletChanged()
+    {
+        gamePanel.UpdateScore();
     }
 }

@@ -20,29 +20,30 @@ public class Item : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (other.CompareTag("Player"))
-		{
-			Collect();
+		
+		if (other.TryGetComponent<Wallet>(out Wallet wallet))
+        {
+			if (CollectibleType == ItemTypes.Jewel)
+			{
+				wallet?.AddCoins();
+				Debug.Log("Jewel");
+			}
+
+			if (CollectibleType == ItemTypes.Health)
+			{
+				Debug.Log("Health");
+			}
+			CollectEffect();
 		}
 	}
 
-	private void Collect()
+	private void CollectEffect()
 	{
 		if (collectSound)
 			AudioSource.PlayClipAtPoint(collectSound, transform.position);
 		if (collectEffect)
 			Instantiate(collectEffect, transform.position, Quaternion.identity);
 
-
-		if (CollectibleType == ItemTypes.Jewel)
-		{
-			Debug.Log("Jewel");
-		}
-		if (CollectibleType == ItemTypes.Health)
-		{
-			Debug.Log("Health");
-		}
-		
 		gameObject.SetActive(false);
 	}
 	

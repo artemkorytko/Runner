@@ -34,42 +34,16 @@ public class Level : MonoBehaviour
 
     private Vector3 playerLocalPosition = Vector3.zero;
 
-
-    private float maxRoadTurnX = 20f;
-    private float maxRoadTurnY = 20f;
-    private float currentRoadOffsetX = -20;
-    private float currentRoadOffsetY = 0;
-    private bool turnRight;
-
-    private void Update()
-    {
-       
-    }
     private void SetShader()
     {
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
-        
-      /*  if (player.PlayerPosZ > 30 && player.PlayerPosZ < 60)
-        {
-            if (Mathf.Abs(currentRoadOffsetX) < maxRoadTurnX)
-            {
-                currentRoadOffsetX = Mathf.LerpAngle(currentRoadOffsetX, currentRoadOffsetX - 3, 1 * Time.deltaTime);
-            }
-        }
-        else if(player.PlayerPosZ > 100 && player.PlayerPosZ < 150)
-        {
-            currentRoadOffsetX = Mathf.LerpAngle(currentRoadOffsetX, currentRoadOffsetX + 3, 1 * Time.deltaTime);
-            currentRoadOffsetY = Mathf.LerpAngle(currentRoadOffsetY, currentRoadOffsetY - 3, 1 * Time.deltaTime);
-        }
-
-
-        Vector2 Offset = new Vector2(currentRoadOffsetX, currentRoadOffsetY);*/
+      
         foreach (GameObject gameObject in allObjects)
         {
             if (gameObject.layer == 7)
             {
                 gameObject.GetComponent<Renderer>().material.shader = shader;
-               // gameObject.GetComponent<Renderer>().material.SetVector("_QOffset", Offset);
+                //gameObject.GetComponent<Renderer>().material.SetVector(CurvatureID, curvature);
             }
         }
     }
@@ -154,8 +128,7 @@ public class Level : MonoBehaviour
         }
         player = null;
         itemObjects.Clear();
-        currentRoadOffsetX = 0;
-        currentRoadOffsetX = -20;
+       
     }
     private void GenerateItems()
     {

@@ -123,6 +123,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &119473819 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 142014449327336555, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+  m_PrefabInstance: {fileID: 756757380358304865}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &119473823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119473819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07259ceb108c08540afd8a4e18b8ed6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: {fileID: 1960384277}
 --- !u!1 &155140709
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,7 +170,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c02e19f53982f4cbbb140ed63db9c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Curvature: {x: 0, y: 0.5, z: 0}
+  Curvature: {x: 0, y: -2, z: 1}
   Distance: 0
   CurvatureScaleUnit: 1000
 --- !u!4 &155140711
@@ -420,7 +438,7 @@ MonoBehaviour:
   wallPrefab: {fileID: 3329945613159396381, guid: 9a77f3ec8d96d724aa76a4f31b30bfac, type: 3}
   finishPrefab: {fileID: 7653155079519259146, guid: 32fe5e39f368dc14488507c9f6df6a1c, type: 3}
   shader: {fileID: 4800000, guid: 2dcfb609cdb0b2b46840c8c159017b22, type: 3}
-  floorCount: 50
+  floorCount: 10
   floorLenght: 20
   floorWidth: 6
   wallMinOffset: 3
@@ -494,6 +512,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1960384277 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8829540033112430286, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+  m_PrefabInstance: {fileID: 756757380358304865}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &756757380358304865
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -505,6 +534,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1256563269}
+    - target: {fileID: 142014449327336555, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 756757379082749635, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -600,6 +633,38 @@ PrefabInstance:
     - target: {fileID: 2999338658508736450, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: RestartLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585357954230774553, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_Color.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585357954230774553, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9107233
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585357954230774553, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585357954230774553, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: f4c99a340a6e6504aa6e992b7a253612, type: 3}
+    - target: {fileID: 4585357954230774553, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_FontData.m_MaxSize
+      value: 147
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585357954230774553, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_FontData.m_MinSize
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585357954230774553, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_FontData.m_FontSize
+      value: 109
+      objectReference: {fileID: 0}
+    - target: {fileID: 4585357954230774553, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
+      propertyPath: m_FontData.m_FontStyle
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8114107024727480837, guid: cbe980c4a7a04014f8993851c4cc5dfc, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
